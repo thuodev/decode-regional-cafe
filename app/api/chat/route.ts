@@ -49,8 +49,12 @@ export async function POST(req: NextRequest) {
     console.error("Chat route failed:", error);
 
     return NextResponse.json(
-      { needsClarification: "Sorry, could you rephrase your savings goal?" },
-      { status: 200 }
+      {
+        errorCode: "AI_REQUEST_FAILED",
+        errorMessage:
+          error instanceof Error ? error.message : "Failed to generate a savings plan.",
+      },
+      { status: 500 }
     );
   }
 }

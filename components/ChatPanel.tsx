@@ -115,11 +115,13 @@ async function sendMessage(text: string): Promise<ChatResponse> {
     body: JSON.stringify({ message: text }),
   });
 
+  const data = await res.json();
+
   if (!res.ok) {
-    throw new Error(`Chat request failed with status ${res.status}`);
+    throw new Error(data.errorMessage ?? `Chat request failed with status ${res.status}`);
   }
 
-  return res.json();
+  return data;
 }
 
 async function confirmAndSave(
